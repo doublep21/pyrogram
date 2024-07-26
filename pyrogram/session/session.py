@@ -354,7 +354,7 @@ class Session:
                 if isinstance(data, (raw.functions.InvokeWithoutUpdates, raw.functions.InvokeWithTakeout)):
                     data = data.query
 
-                #RPCError.raise_it(result, type(data))
+                RPCError.raise_it(result, type(data))
 
             if isinstance(result, raw.types.BadMsgNotification):
                 log.warning("%s: %s", BadMsgNotification.__name__, BadMsgNotification(result.error_code))
