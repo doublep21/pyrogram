@@ -44,7 +44,8 @@ from pyrogram.errors import CDNFileHashMismatch
 from pyrogram.errors import (
     SessionPasswordNeeded,
     VolumeLocNotFound, ChannelPrivate,
-    BadRequest
+    BadRequest, AuthBytesInvalid,
+    FloodWait, FloodPremiumWait
 )
 from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
@@ -794,7 +795,7 @@ class Client(Methods):
 
             if isinstance(e, asyncio.CancelledError):
                 raise e
-            if isinstance(e, pyrogram.errors.FloodWait):
+            if isinstance(e, (FloodWait, FloodPremiumWait)):
                 raise e
 
             return None
@@ -1021,7 +1022,7 @@ class Client(Methods):
                 raise
             except Exception as e:
                 log.exception(e)
-            except pyrogram.errors.FloodWait:
+            except (FloodWait, FloodPremiumWait):
                 raise
             finally:
                 await session.stop()
