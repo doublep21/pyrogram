@@ -794,6 +794,8 @@ class Client(Methods):
 
             if isinstance(e, asyncio.CancelledError):
                 raise e
+            if isinstance(e, pyrogram.errors.FloodWait):
+                raise e
 
             return None
         else:
@@ -1019,6 +1021,8 @@ class Client(Methods):
                 raise
             except Exception as e:
                 log.exception(e)
+            except pyrogram.errors.FloodWait:
+                raise
             finally:
                 await session.stop()
 
